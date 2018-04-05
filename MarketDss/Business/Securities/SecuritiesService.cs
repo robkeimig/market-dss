@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MarketDss.Infrastructure.Configuration;
 using MarketDss.Vendor.Nasdaq;
+using MarketDss.Vendor.Robinhood;
 
 namespace MarketDss.Business.Securities
 {
@@ -55,14 +56,18 @@ namespace MarketDss.Business.Securities
             }
         }
 
-        internal Task PullNewSecurityInformationAsync()
+        internal async Task PullNewSecurityInformationAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        internal Task PullNewSecurityPricesAsync()
-        {
-            throw new NotImplementedException();
+            var securities = await _securitiesRepository.GetAllSecuritiesAsync().ConfigureAwait(false);
+            var robinhoodClient = new RobinhoodClient(_serviceConfiguration.RobinhoodClientConfiguration);
+            foreach(var security in securities)
+            {
+                var fundamentals = await robinhoodClient.GetFundamentalsAsync(security.Symbol).ConfigureAwait(false);
+                var priceHistory = await robinhoodClient.GetPriceHistoryAsync(security.Symbol).ConfigureAwait(false);
+                // TODO : security.MarketCapitalization = fundamentals.xyz...
+                // TODO : security price mappings and table update
+                await _securitiesRepository.UpdateSecurityAsync(security).ConfigureAwait(false);
+            }
         }
 
         internal async Task<IEnumerable<Security>> GetAllSecuritiesAsync()

@@ -1,4 +1,5 @@
 ﻿using MarketDss.Vendor.Nasdaq;
+using MarketDss.Vendor.Robinhood;
 using Newtonsoft.Json;
 
 namespace MarketDss.Infrastructure.Configuration
@@ -18,5 +19,7 @@ namespace MarketDss.Infrastructure.Configuration
         public JsonSerializerSettings JsonSerializerSettings { get; internal set; }
 
         public NasdaqScraperConfiguration NasdaqScraperConfiguration { get; internal set; }
+
+        public RobinhoodClientConfiguration RobinhoodClientConfiguration { get; internal set; }
     }
 }

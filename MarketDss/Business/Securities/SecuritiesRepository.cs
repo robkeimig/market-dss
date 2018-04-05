@@ -46,5 +46,10 @@ namespace MarketDss.Business.Securities
         {
             throw new NotImplementedException();
         }
+
+        internal Task UpdateSecurityAsync(Security security)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -465,14 +465,16 @@
     <Compile Include="Vendor\Nasdaq\NasdaqDividendItem.cs" />
     <Compile Include="Vendor\Nasdaq\NasdaqScraperConfiguration.cs" />
     <Compile Include="Vendor\Nasdaq\NasdaqScraper.cs" />
+    <Compile Include="Vendor\Robinhood\RobinhoodClient.cs" />
+    <Compile Include="Vendor\Robinhood\RobinhoodClientConfiguration.cs" />
+    <Compile Include="Vendor\Robinhood\RobinhoodFundamentals.cs" />
+    <Compile Include="Vendor\Robinhood\RobinhoodPriceHistory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Vendor\Robinhood\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using MarketDss.Vendor.Nasdaq;
+using MarketDss.Vendor.Robinhood;
 using Newtonsoft.Json.Serialization;
 
 namespace MarketDss.Infrastructure.Configuration
@@ -45,6 +46,10 @@ namespace MarketDss.Infrastructure.Configuration
             {
                 LookupDays = int.Parse(_settingService.GetSettingValue("NasdaqScraperLookupDays")),
                 RequestDelaySeconds = int.Parse(_settingService.GetSettingValue("RequestDelaySeconds"))
+            };
+
+            configuration.RobinhoodClientConfiguration = new RobinhoodClientConfiguration()
+            {
             };
 
             return configuration;
