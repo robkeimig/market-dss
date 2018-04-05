@@ -452,6 +452,10 @@
     <Compile Include="Infrastructure\Data\Migrations\201804042347272_AddExDateToSecurity.Designer.cs">
       <DependentUpon>201804042347272_AddExDateToSecurity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Data\Migrations\201804050351326_SecuritiesTableColumns.cs" />
+    <Compile Include="Infrastructure\Data\Migrations\201804050351326_SecuritiesTableColumns.Designer.cs">
+      <DependentUpon>201804050351326_SecuritiesTableColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Data\Migrations\MigrationConfiguration.cs" />
     <Compile Include="Infrastructure\Data\SchemaContext.cs" />
     <Compile Include="Infrastructure\Data\Schema\SecuritiesTableRow.cs" />
@@ -485,6 +489,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Infrastructure\Data\Migrations\201804042347272_AddExDateToSecurity.resx">
       <DependentUpon>201804042347272_AddExDateToSecurity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Infrastructure\Data\Migrations\201804050351326_SecuritiesTableColumns.resx">
+      <DependentUpon>201804050351326_SecuritiesTableColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
