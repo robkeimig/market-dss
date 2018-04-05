@@ -5,7 +5,7 @@ namespace MarketDss.Infrastructure.Configuration
     public static class SettingSeed
     {
         private const string DefaultUriBinding = @"http://localhost:8080";
-        private const int DefaultNasdaqScraperLookupDays = 60;
+        private const int DefaultNasdaqScraperLookupDays = 7;
         private const int DefaultRequestDelaySeconds = 1;
 
         public static IEnumerable<Setting> Settings => new List<Setting>()

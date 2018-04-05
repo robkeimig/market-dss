@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MarketDss.Business.Securities
 {
@@ -25,5 +26,9 @@ namespace MarketDss.Business.Securities
         public decimal? ComputedRelativeStrengthIndex { get; set; }
 
         public decimal? ComputedDividendYield { get; set; }
+
+        public IEnumerable<SecurityDividend> Dividends { get; set; }
+
+        public IEnumerable<SecurityDailyPriceHistory> DailyPriceHistory { get; set; }
     }
 }

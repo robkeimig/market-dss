@@ -27,11 +27,6 @@ namespace MarketDss.Business.Securities
             }
         }
 
-        internal Task<SecurityDividend> GetDividendAsync(string symbol, DateTime? exDividendDate)
-        {
-            throw new NotImplementedException();
-        }
-
         internal Task<int> AddSecurityAsync(Security security)
         {
             throw new NotImplementedException();

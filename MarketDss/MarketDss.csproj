@@ -431,6 +431,7 @@
   <ItemGroup>
     <Compile Include="Business\DividendCapture\DividendCaptureDecisionController.cs" />
     <Compile Include="Business\DividendCapture\DividendCaptureDecisionService.cs" />
+    <Compile Include="Business\Securities\SecurityDailyPriceHistory.cs" />
     <Compile Include="Business\Securities\SecurityDividend.cs" />
     <Compile Include="Business\Securities\SecuritiesRepository.cs" />
     <Compile Include="Business\Securities\SecuritiesRepository.Mapping.cs" />
@@ -455,6 +456,14 @@
     <Compile Include="Infrastructure\Data\Migrations\201804050351326_SecuritiesTableColumns.cs" />
     <Compile Include="Infrastructure\Data\Migrations\201804050351326_SecuritiesTableColumns.Designer.cs">
       <DependentUpon>201804050351326_SecuritiesTableColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Data\Migrations\201804050409429_MoreTableCleanup.cs" />
+    <Compile Include="Infrastructure\Data\Migrations\201804050409429_MoreTableCleanup.Designer.cs">
+      <DependentUpon>201804050409429_MoreTableCleanup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Data\Migrations\201804050410245_DropSymbolColumn.cs" />
+    <Compile Include="Infrastructure\Data\Migrations\201804050410245_DropSymbolColumn.Designer.cs">
+      <DependentUpon>201804050410245_DropSymbolColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Data\Migrations\MigrationConfiguration.cs" />
     <Compile Include="Infrastructure\Data\SchemaContext.cs" />
@@ -492,6 +501,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Infrastructure\Data\Migrations\201804050351326_SecuritiesTableColumns.resx">
       <DependentUpon>201804050351326_SecuritiesTableColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Infrastructure\Data\Migrations\201804050409429_MoreTableCleanup.resx">
+      <DependentUpon>201804050409429_MoreTableCleanup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Infrastructure\Data\Migrations\201804050410245_DropSymbolColumn.resx">
+      <DependentUpon>201804050410245_DropSymbolColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -10,14 +10,14 @@ namespace MarketDss.Infrastructure.Data.Schema
 
         public int SecurityId { get; set; }
 
-        public double Dividend { get; set; }
+        public double? Dividend { get; set; }
 
-        public DateTime ExDividendDate { get; set; }
+        public DateTime? ExDividendDate { get; set; }
 
-        public DateTime RecordDate { get; set; }
+        public DateTime? RecordDate { get; set; }
 
-        public DateTime AnnouncementDate { get; set; }
+        public DateTime? AnnouncementDate { get; set; }
 
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
     }
 }

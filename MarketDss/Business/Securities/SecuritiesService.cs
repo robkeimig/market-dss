@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MarketDss.Infrastructure.Configuration;
 using MarketDss.Vendor.Nasdaq;
@@ -26,20 +27,22 @@ namespace MarketDss.Business.Securities
             var upcomingDividends = await nasdaqScraper.GetUpcomingDividendsAsync().ConfigureAwait(false);
             foreach(var upcomingDividend in upcomingDividends)
             {
-                var existingDividend = await _securitiesRepository.GetDividendAsync(upcomingDividend.Symbol, upcomingDividend.ExDividendDate).ConfigureAwait(false);
-                if(existingDividend != null)
-                {
-                    continue;
-                }
-
                 var existingSecurity = await _securitiesRepository.GetSecurityAsync(upcomingDividend.Symbol).ConfigureAwait(false);
-                if(existingSecurity == null)
+                if (existingSecurity == null)
                 {
                     existingSecurity = new Security()
                     {
-                        Symbol = upcomingDividend.Symbol
+                        Symbol = upcomingDividend.Symbol,
+                        Dividends = new List<SecurityDividend>(),
+                        DailyPriceHistory = new List<SecurityDailyPriceHistory>()
                     };
                     existingSecurity.Id = await _securitiesRepository.AddSecurityAsync(existingSecurity).ConfigureAwait(false);
+                }
+
+                var existingDividend = existingSecurity.Dividends.FirstOrDefault(d => d.ExDividendDate.Value.Date == upcomingDividend.ExDividendDate.Value.Date);
+                if(existingDividend != null)
+                {
+                    continue;
                 }
 
                 existingDividend = new SecurityDividend()
