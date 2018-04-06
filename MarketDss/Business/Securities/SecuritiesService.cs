@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MarketDss.Infrastructure.Configuration;
@@ -21,7 +20,18 @@ namespace MarketDss.Business.Securities
             _securitiesRepository = securitiesRepository;
         }
 
-        internal async Task PullNewDividendInformationAsync()
+        public async Task<IEnumerable<Security>> GetAllSecuritiesAsync()
+        {
+            return await _securitiesRepository.GetAllSecuritiesAsync().ConfigureAwait(false);
+        }
+
+        public async Task RefreshAsync()
+        {
+            await PullNewDividendInformationAsync().ConfigureAwait(false);
+            await PullNewSecurityInformationAsync().ConfigureAwait(false);
+        }
+
+        private async Task PullNewDividendInformationAsync()
         {
             var nasdaqScraper = new NasdaqScraper(_serviceConfiguration.NasdaqScraperConfiguration);
             var upcomingDividends = await nasdaqScraper.GetUpcomingDividendsAsync().ConfigureAwait(false);
@@ -59,7 +69,7 @@ namespace MarketDss.Business.Securities
             }
         }
 
-        internal async Task PullNewSecurityInformationAsync()
+        private async Task PullNewSecurityInformationAsync()
         {
             var securities = await _securitiesRepository.GetAllSecuritiesAsync().ConfigureAwait(false);
             var robinhoodClient = new RobinhoodClient(_serviceConfiguration.RobinhoodClientConfiguration);
@@ -71,11 +81,6 @@ namespace MarketDss.Business.Securities
                 // TODO : security price mappings and table update
                 await _securitiesRepository.UpdateSecurityAsync(security).ConfigureAwait(false);
             }
-        }
-
-        internal async Task<IEnumerable<Security>> GetAllSecuritiesAsync()
-        {
-            return await _securitiesRepository.GetAllSecuritiesAsync().ConfigureAwait(false);
         }
     }
 }

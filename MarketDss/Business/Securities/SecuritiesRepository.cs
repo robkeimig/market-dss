@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using MarketDss.Infrastructure.Configuration;
@@ -27,19 +28,63 @@ namespace MarketDss.Business.Securities
             }
         }
 
-        internal Task<int> AddSecurityAsync(Security security)
+        internal async Task<int> AddSecurityAsync(Security security)
         {
-            throw new NotImplementedException();
+            using(var con = new SqlConnection(_serviceConfiguration.ConnectionString))
+            {
+                var securitiesTableRow = MapToSecuritiesTableRow(security);
+
+                var id = await con
+                    .ExecuteScalarAsync<int>(InsertSecurityQuery, securitiesTableRow)
+                    .ConfigureAwait(false);
+
+                return id;
+            }
         }
 
-        internal Task<Security> GetSecurityAsync(string symbol)
+        internal async Task<Security> GetSecurityAsync(string symbol)
         {
-            throw new NotImplementedException();
+            using (var con = new SqlConnection(_serviceConfiguration.ConnectionString))
+            {
+                var securitiesTableRow = await con
+                    .QueryFirstOrDefaultAsync<SecuritiesTableRow>(SelectSecurityBySymbolQuery, new { Symbol = symbol })
+                    .ConfigureAwait(false);
+
+                if(securitiesTableRow == null)
+                {
+                    return null;
+                }
+
+                var security = MapToSecurity(securitiesTableRow);
+                var securityDividendsTableRows = await con
+                    .QueryAsync<SecurityDividendsTableRow>(SelectSecurityDividendBySecurityIdQuery, new { SecurityId = security.Id })
+                    .ConfigureAwait(false);
+
+                if(!securityDividendsTableRows.Any())
+                {
+                    security.Dividends = new List<SecurityDividend>();
+                }
+                else
+                {
+                    security.Dividends = MapToSecurityDividends(securityDividendsTableRows);
+                }
+
+                return security;
+            }
         }
 
-        internal Task<int> AddSecurityDividendAsync(SecurityDividend securityDividend)
+        internal async Task<int> AddSecurityDividendAsync(SecurityDividend securityDividend)
         {
-            throw new NotImplementedException();
+            using(var con = new SqlConnection(_serviceConfiguration.ConnectionString))
+            {
+                var securityDividendsTableRow = MapToSecurityDividendsTableRow(securityDividend);
+
+                var id = await con
+                    .ExecuteScalarAsync<int>(InsertSecurityDividendQuery, securityDividendsTableRow)
+                    .ConfigureAwait(false);
+
+                return id;
+            }
         }
 
         internal Task UpdateSecurityAsync(Security security)

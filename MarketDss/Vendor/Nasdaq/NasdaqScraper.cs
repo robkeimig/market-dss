@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
 using log4net;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace MarketDss.Vendor.Nasdaq
 {
     public class NasdaqScraper
     {
         private static readonly ILog Log = LogManager.GetLogger(nameof(NasdaqScraper));
-        
+        private static readonly Regex NasdaqCompanySymbolRegex =
+            new Regex(@"^(.+)\((\S+)\)$", RegexOptions.Compiled);
+
         private readonly NasdaqScraperConfiguration _configuration;
         private readonly ChromeDriverService _chromeDriverService;
         private readonly ChromeOptions _chromeOptions;
@@ -53,9 +58,14 @@ namespace MarketDss.Vendor.Nasdaq
                 try
                 {
                     driver = new ChromeDriver(_chromeDriverService, _chromeOptions);
-                    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
-                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-                    driver.Navigate().GoToUrl(url);
+                    driver.Url = url;
+                    //driver.Navigate().GoToUrl(url);
+                    var element = new WebDriverWait(driver, TimeSpan.FromSeconds(20))
+                        .Until(a => a.FindElement(By.Id("earnings-announcements"))); //common to all days
+
+                    //driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
+                    //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+                    
                     fail = false;
                 }
                 catch (Exception ex)
@@ -143,7 +153,17 @@ namespace MarketDss.Vendor.Nasdaq
                         switch (columnCount)
                         {
                             case 0:
-                                result.Symbol = value;
+                                var companyNameSymbol = value.Trim();
+                                if (!NasdaqCompanySymbolRegex.IsMatch(companyNameSymbol))
+                                {
+                                    Log.Warn($"Could not locate regex match for company name+symbol '{companyNameSymbol}'");   
+                                }
+                                else
+                                {
+                                    var matches = NasdaqCompanySymbolRegex.Matches(companyNameSymbol);
+                                    result.Symbol = matches[0].Groups[2].Value;
+                                    result.Company = matches[0].Groups[1].Value;
+                                }
                                 break;
                             case 1:
                                 DateTime exDividendDate;

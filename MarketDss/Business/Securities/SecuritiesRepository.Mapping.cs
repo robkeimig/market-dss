@@ -33,7 +33,7 @@ namespace MarketDss.Business.Securities
             {
                 Id = security.Id,
                 MarketCapitalization = security.MarketCapitalization,
-                NextExDividendDate = security.NextExDividendDate == null ? security.NextExDividendDate.Value.Date : (DateTime?)null,
+                NextExDividendDate = security.NextExDividendDate == null ? (DateTime?)null : security.NextExDividendDate.Value.Date,
                 PriceHigh52Weeks = security.PriceHigh52Weeks,
                 PriceLow52Weeks = security.PriceLow52Weeks,
                 PriceToEarningsRatio = security.PriceToEarningsRatio,
@@ -54,6 +54,25 @@ namespace MarketDss.Business.Securities
                 RecordDate = row.RecordDate.HasValue ? row.RecordDate.Value.Date : (DateTime?)null,
                 SecurityId = row.SecurityId
             };
+        }
+
+        private SecurityDividendsTableRow MapToSecurityDividendsTableRow(SecurityDividend dividend)
+        {
+            return new SecurityDividendsTableRow()
+            {
+                Id = dividend.Id,
+                SecurityId = dividend.SecurityId,
+                AnnouncementDate = dividend.AnnouncementDate,
+                Dividend = dividend.Dividend,
+                ExDividendDate = dividend.ExDividendDate,
+                PaymentDate = dividend.PaymentDate,
+                RecordDate = dividend.RecordDate,
+            };
+        }
+
+        private IEnumerable<SecurityDividend> MapToSecurityDividends(IEnumerable<SecurityDividendsTableRow> rows)
+        {
+            return rows.Select(row => MapToSecurityDividend(row));
         }
     }
 }

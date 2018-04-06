@@ -6,6 +6,8 @@ namespace MarketDss.Vendor.Nasdaq
     {
         public DateTime FetchedDateUtc { get; set; }
 
+        public string Company { get; set; }
+
         public string Symbol { get; set; }
 
         public double? Dividend { get; set; }

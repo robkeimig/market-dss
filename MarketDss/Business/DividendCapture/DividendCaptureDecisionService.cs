@@ -34,7 +34,7 @@ namespace MarketDss.Business.DividendCapture
         /// <returns></returns>
         internal async Task RunBatchAsync()
         {
-            await _securitiesService.PullNewDividendInformationAsync().ConfigureAwait(false);
+            await _securitiesService.RefreshAsync().ConfigureAwait(false);
             //await _securitiesService.PullNewSecurityInformationAsync().ConfigureAwait(false);
             //await _securitiesService.PullNewSecurityPricesAsync().ConfigureAwait(false);
         }

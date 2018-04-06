@@ -6,7 +6,7 @@ namespace MarketDss.Business.Securities
     {
         public int Id { get; set; }
 
-        public int? SecurityId { get; set; }
+        public int SecurityId { get; set; }
 
         public string Symbol { get; set; }
 
