@@ -70,6 +70,11 @@ namespace MarketDss.Business.Securities
             };
         }
 
+        private IEnumerable<SecurityDividendsTableRow> MapToSecurityDividendsTableRows(IEnumerable<SecurityDividend> rows)
+        {
+            return rows.Select(row => MapToSecurityDividendsTableRow(row));
+        }
+
         private IEnumerable<SecurityDividend> MapToSecurityDividends(IEnumerable<SecurityDividendsTableRow> rows)
         {
             return rows.Select(row => MapToSecurityDividend(row));

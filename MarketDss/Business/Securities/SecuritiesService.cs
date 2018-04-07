@@ -52,6 +52,11 @@ namespace MarketDss.Business.Securities
                 var existingDividend = existingSecurity.Dividends.FirstOrDefault(d => d.ExDividendDate.Value.Date == upcomingDividend.ExDividendDate.Value.Date);
                 if(existingDividend != null)
                 {
+                    existingDividend.AnnouncementDate = upcomingDividend.AnnouncementDate;
+                    existingDividend.PaymentDate = upcomingDividend.PaymentDate;
+                    existingDividend.RecordDate = upcomingDividend.RecordDate;
+                    existingDividend.Dividend = upcomingDividend.Dividend;
+                    await _securitiesRepository.UpdateSecurityAsync(existingSecurity).ConfigureAwait(false); ;
                     continue;
                 }
 
@@ -76,7 +81,18 @@ namespace MarketDss.Business.Securities
             foreach(var security in securities)
             {
                 var fundamentals = await robinhoodClient.GetFundamentalsAsync(security.Symbol).ConfigureAwait(false);
-                var priceHistory = await robinhoodClient.GetPriceHistoryAsync(security.Symbol).ConfigureAwait(false);
+                security.Sector = fundamentals.Sector;
+                security.PriceToEarningsRatio = fundamentals.PriceToEarningsRatio;
+                security.PriceLow52Weeks = fundamentals.Low52Weeks;
+                security.PriceHigh52Weeks = fundamentals.High52Weeks;
+                //security.NextExDividendDate = todo
+                security.MarketCapitalization = fundamentals.MarketCap;
+                var nextDividend = await _securitiesRepository.GetNextSecurityDividendAsync(security.Id).ConfigureAwait(false);
+                if(nextDividend != null)
+                {
+                    security.NextExDividendDate = nextDividend.ExDividendDate;
+                }
+                //var priceHistory = await robinhoodClient.GetPriceHistoryAsync(security.Symbol).ConfigureAwait(false);
                 // TODO : security.MarketCapitalization = fundamentals.xyz...
                 // TODO : security price mappings and table update
                 await _securitiesRepository.UpdateSecurityAsync(security).ConfigureAwait(false);

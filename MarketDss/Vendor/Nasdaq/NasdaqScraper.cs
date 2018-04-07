@@ -59,13 +59,8 @@ namespace MarketDss.Vendor.Nasdaq
                 {
                     driver = new ChromeDriver(_chromeDriverService, _chromeOptions);
                     driver.Url = url;
-                    //driver.Navigate().GoToUrl(url);
                     var element = new WebDriverWait(driver, TimeSpan.FromSeconds(20))
                         .Until(a => a.FindElement(By.Id("earnings-announcements"))); //common to all days
-
-                    //driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
-                    //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-                    
                     fail = false;
                 }
                 catch (Exception ex)

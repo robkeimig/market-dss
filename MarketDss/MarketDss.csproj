@@ -45,6 +45,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Flurl, Version=2.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.2.7.1\lib\net40\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flurl.Http.2.3.0\lib\net45\Flurl.Http.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.7.2.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.7.2\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -478,9 +484,9 @@
     <Compile Include="Vendor\Nasdaq\NasdaqDividendItem.cs" />
     <Compile Include="Vendor\Nasdaq\NasdaqScraperConfiguration.cs" />
     <Compile Include="Vendor\Nasdaq\NasdaqScraper.cs" />
+    <Compile Include="Vendor\Robinhood\Models\Fundamental.cs" />
     <Compile Include="Vendor\Robinhood\RobinhoodClient.cs" />
     <Compile Include="Vendor\Robinhood\RobinhoodClientConfiguration.cs" />
-    <Compile Include="Vendor\Robinhood\RobinhoodFundamentals.cs" />
     <Compile Include="Vendor\Robinhood\RobinhoodPriceHistory.cs" />
   </ItemGroup>
   <ItemGroup>

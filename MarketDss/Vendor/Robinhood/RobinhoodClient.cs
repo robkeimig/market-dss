@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Flurl.Http;
+using MarketDss.Vendor.Robinhood.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace MarketDss.Vendor.Robinhood
@@ -12,9 +14,12 @@ namespace MarketDss.Vendor.Robinhood
             _configuration = configuration;
         }
 
-        public async Task<RobinhoodFundamentals> GetFundamentalsAsync(string symbol)
+        public async Task<Fundamental> GetFundamentalsAsync(string symbol)
         {
-            throw new NotImplementedException();
+            var baseUri = new Uri(_configuration.Url);
+            var url = new Uri(baseUri, $"fundamentals/{symbol}/").ToString();
+            var fundamental = await url.GetJsonAsync<Fundamental>().ConfigureAwait(false);
+            return fundamental;
         }
 
         public async Task<RobinhoodPriceHistory> GetPriceHistoryAsync(string symbol)

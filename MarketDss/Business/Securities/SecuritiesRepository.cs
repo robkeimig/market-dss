@@ -87,9 +87,47 @@ namespace MarketDss.Business.Securities
             }
         }
 
-        internal Task UpdateSecurityAsync(Security security)
+        internal async Task UpdateSecurityDividendAsync(SecurityDividend securityDividend)
         {
-            throw new NotImplementedException();
+            using (var con = new SqlConnection(_serviceConfiguration.ConnectionString))
+            {
+                var securityDividendsTableRow = MapToSecurityDividendsTableRow(securityDividend);
+                await con.ExecuteAsync(UpdateSecurityDividendByIdQuery, securityDividendsTableRow).ConfigureAwait(false);
+            }
+        }
+
+        internal async Task UpdateSecurityAsync(Security security)
+        {
+            using(var con = new SqlConnection(_serviceConfiguration.ConnectionString))
+            {
+                foreach (var dividend in security.Dividends)
+                {
+                    await UpdateSecurityDividendAsync(dividend).ConfigureAwait(false);
+                }
+                var securitiesTableRow = MapToSecuritiesTableRow(security);
+                await con.ExecuteAsync(UpdateSecurityByIdQuery, securitiesTableRow).ConfigureAwait(false);
+            }
+        }
+
+        internal async Task<SecurityDividend> GetNextSecurityDividendAsync(int securityId)
+        {
+            using(var con = new SqlConnection(_serviceConfiguration.ConnectionString))
+            {
+                var securityDividendsTableRows = await con
+                   .QueryAsync<SecurityDividendsTableRow>(SelectSecurityDividendBySecurityIdQuery, new { SecurityId = securityId })
+                   .ConfigureAwait(false);
+
+                if (!securityDividendsTableRows.Any())
+                {
+                    return null;
+                }
+                else
+                {
+                    var securityDividends = MapToSecurityDividends(securityDividendsTableRows);
+                    var securityDividend = securityDividends.Where(x => x.ExDividendDate.HasValue && x.ExDividendDate >= DateTime.Today).OrderBy(y => y.ExDividendDate.Value).FirstOrDefault();
+                    return securityDividend;
+                }
+            }
         }
     }
 }

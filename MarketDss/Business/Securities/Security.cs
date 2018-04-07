@@ -27,8 +27,8 @@ namespace MarketDss.Business.Securities
 
         public decimal? ComputedDividendYield { get; set; }
 
-        public IEnumerable<SecurityDividend> Dividends { get; set; }
+        public IEnumerable<SecurityDividend> Dividends { get; set; } = new List<SecurityDividend>();
 
-        public IEnumerable<SecurityDailyPriceHistory> DailyPriceHistory { get; set; }
+        public IEnumerable<SecurityDailyPriceHistory> DailyPriceHistory { get; set; } = new List<SecurityDailyPriceHistory>();
     }
 }
