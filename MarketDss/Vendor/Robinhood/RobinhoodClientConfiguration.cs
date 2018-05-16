@@ -2,6 +2,6 @@
 {
     public class RobinhoodClientConfiguration
     {
-        public string Url => "https://api.robinhood.com";
+        public string Url => "https://api.robin"+"hood.com";
     }
 }
