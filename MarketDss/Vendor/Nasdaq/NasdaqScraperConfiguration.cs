@@ -2,7 +2,7 @@
 {
     public class NasdaqScraperConfiguration
     {
-        public string Url => "https://www.nasdaq.com/dividend-stocks/dividend-calendar.aspx";
+        public string Url => "https://www.nas"+"daq.com/dividend-stocks/dividend-calendar.aspx";
 
         public int LookupDays { get; set; }
 
